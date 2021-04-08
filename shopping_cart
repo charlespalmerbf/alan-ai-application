@@ -1,0 +1,27 @@
+intent("(open|view) (the|) cart", p => {
+    p.play({ command: 'open-cart' })
+})
+
+intent("close (the|) cart", p => {
+    p.play({ command: 'close-cart' })
+})
+
+const itemNameSlot = "$(ITEM_NAME red|yellow|blue|orange|green|purple|light gray|dark gray)"
+const quantityContext = context(() => {
+    follow("$(QUANTITY NUMBER)", p => {
+        p.play({ command: 'add-item', payload: { quantity: p.QUANTITY.number, name: p.state.name }})
+    })
+})
+
+intent(`add (the|) ${itemNameSlot} (item|) to (the|) cart`, p => {
+    p.play("How many would you like to add?")
+    p.then(quantityContext, { state: { name: p.ITEM_NAME.value } })
+})
+
+intent(`remove (the|) ${itemNameSlot} (item|) from (the|) cart`, p => {
+    p.play({ command: 'remove-item', payload: { name: p.ITEM_NAME.value } })
+})
+
+intent("(checkout|purchase items)", p => {
+    p.play({ command: 'purchase-items'})
+})
