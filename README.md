@@ -7,8 +7,6 @@ Installation
 
 To install this application, first clone this repository to your local machine:
 
-bashCopy code
-
 `git clone https://github.com/username/repo.git`
 
 Next, navigate to the project directory and run `npm install` to install the necessary dependencies.
